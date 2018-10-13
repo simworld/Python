@@ -65,14 +65,14 @@ fujsx!pu!fwbi!uoeje!vpz!fojm!fiu!tj!fupsx!sfwf!vpz!fepd!gp!fojm!utfc!fiU'''
 import math
 
 
-def encrypt_decrypt(text, opt): #Create a function that get text and the option (Encrypt or Decrypt)
+def encrypt_decrypt(text, opt):                 #Create a function that gets two parameters, text and option (Encrypt or Decrypt)
     new_text = ""
-    for char in text[::-1]:
-        if opt == 1:
-            temp = ord(char) + 1
+    for char in text[::-1]:                     #Reverse the string
+        if opt == 1:                            #Check the option, 1 encrypt, 2 decrypt
+            temp = ord(char) + 1                #Get the Unicode of the string and add 1
             new_text += chr(temp)
         elif opt == 2:
-            temp = ord(char) - 1
+            temp = ord(char) - 1                #Same code but decrease the Unicode value by 1 (Used to decrypt)
             new_text += chr(temp)
     if opt == 1:
         print("The text encrypted is", new_text)
