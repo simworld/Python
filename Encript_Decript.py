@@ -100,3 +100,4 @@ while optionStr != "0":
         text = str(input("Please insert a text to decrypt: "))
         encrypt_decrypt(text, 2)
     break
+    
