@@ -36,7 +36,7 @@ below50k = []
 
 final_data = []
 
-
+na = []
 def get_data():
     '''
     Get the data form the HTTP link
@@ -78,6 +78,13 @@ def process_data(data):
                 del i[x]
     except Exception:
         pass
+    # Two for loop to remove the last 2 blank lines in the file
+    for line in final_data:
+        if len(line) < 11:
+            final_data.remove(line)
+            for line in final_data:
+                if len(line) < 11:
+                    final_data.remove(line)
 
     len_data = int(len(data) * 0.7)
 
@@ -105,7 +112,6 @@ def creat_dict(training_data):
         else:
 
             above50k.append(i)
-
 
     # Fill the two dict below and above 50K with the values of the training data
     for x in range(len(below50k)):
@@ -179,7 +185,7 @@ def classifier(discrete_attributes):
                 counts[word] = 1
         # Loop for the dict counts to calculate the average for each value in the corresponding attribute
         for key, value in counts.items():
-            if key == '<=50K': # Break the for for the last attribute <=50K
+            if key == '<=50K':  # Break the for for the last attribute <=50K
                 break
             else:
                 weight[key] = round(value / len(y), 4)
@@ -226,11 +232,11 @@ def test(average_data, data_test):
     # The for below will be convert all the values in data_test into below string,
     # so then we can use the .isnumeric method to check if the value is numeric or not
     for line in data_test:
-            for value in line:
-                value = str(value)
-                str_data_test.append(value)
-            final_data_test.append(str_data_test)
-            str_data_test = []
+        for value in line:
+            value = str(value)
+            str_data_test.append(value)
+        final_data_test.append(str_data_test)
+        str_data_test = []
 
     # Loop in the final_data_test for each line and then for the index of each line check if the value is numeric or not
     # it will compare the value of the data_test with the value in the average data and after it will add <=50K or >50K
@@ -276,8 +282,8 @@ def test(average_data, data_test):
                     temp_result_list[index] = '<=50K'
             # when it will get below string it will check the corresponding value of the string
             elif value in average_data:
-                temp_value = average_data[value] # save in temp_value the value of the key in average data
-                if temp_value >= weights_below[value]: # if the value is >= of the value in the dict below
+                temp_value = average_data[value]  # save in temp_value the value of the key in average data
+                if temp_value >= weights_below[value]:  # if the value is >= of the value in the dict below
                     temp_result_list[index] = '>50K'
                 else:
                     temp_result_list[index] = '<=50K'
@@ -298,8 +304,8 @@ def test(average_data, data_test):
                 acc_below += 1
             # Can uncomment to print all the not correct lines
             else:
-                wrong +=1
-            #     print(line, '--> NOT CORRECT','-','PREDICTION WAS:', below)
+                wrong += 1
+                # print(line, '--> NOT CORRECT','-','PREDICTION WAS:', below)
         else:
             above = '>50K'
             temp_above += 1
@@ -309,8 +315,8 @@ def test(average_data, data_test):
                 acc_over += 1
             # Can uncomment to print all the not correct lines
             else:
-                wrong +=1
-            #     print(line, '--> NOT CORRECT','-','PREDICTION WAS:', above)
+                wrong += 1
+                # print(line, '--> NOT CORRECT','-','PREDICTION WAS:', above)
 
     accuracy = round((acc_over * 100) / over_50k, 2)
     accuracy2 = round((acc_below * 100) / below_50k, 2)
@@ -322,10 +328,10 @@ def test(average_data, data_test):
     print('Prediction above 50k:', acc_over)
     print('Prediction below 50k:', acc_below, '\n')
 
-    # print('Not correct:', wrong)
-    print('Accuracy >50K: ', accuracy,'%')
-    print('Accuracy <=50K: ', accuracy2,'%', '\n')
-    print('Total accuracy: ', (accuracy + accuracy2) / 2,'%')
+    print('Not correct:', wrong)
+    print('Accuracy >50K: ', accuracy, '%')
+    print('Accuracy <=50K: ', accuracy2, '%', '\n')
+    print('Total accuracy: ', (accuracy + accuracy2) / 2, '%')
     print('----------------------------------', '\n')
 
 
