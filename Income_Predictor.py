@@ -87,6 +87,7 @@ def process_data(data):
 
     return training_data, test_data  # return two list, the training data and the test data
 
+
 def creat_dict(training_data):
     '''
     Get the training data, split the data in two different list and create two dict for below and above 50K
@@ -178,9 +179,7 @@ def classifier(discrete_attributes):
                 counts[word] = 1
         # Loop for the dict counts to calculate the average for each value in the corresponding attribute
         for key, value in counts.items():
-            if key == '<=50K':
-                break
-            elif key == '>50K':
+            if key == '<=50K': # Break the for for the last attribute <=50K
                 break
             else:
                 weight[key] = round(value / len(y), 4)
@@ -208,7 +207,7 @@ def avg(attributes1, attributes2):
 def test(average_data, data_test):
     '''
     Compare the value of each attribute in the data test with the average data
-    and it will return a prediction and the accuracy of the correct values
+    and it will return below prediction and the accuracy of the correct values
     :param average_data:
     :param data_test:
     :return:
@@ -222,7 +221,9 @@ def test(average_data, data_test):
     final_data_test = []
     acc_below = 0
     acc_over = 0
-    # The for below will be convert all the values in data_test into a string,
+    wrong = 0
+
+    # The for below will be convert all the values in data_test into below string,
     # so then we can use the .isnumeric method to check if the value is numeric or not
     for line in data_test:
             for value in line:
@@ -273,7 +274,7 @@ def test(average_data, data_test):
                     temp_result_list[index] = '>50K'
                 else:
                     temp_result_list[index] = '<=50K'
-            # when it will get a string it will check the corresponding value of the string
+            # when it will get below string it will check the corresponding value of the string
             elif value in average_data:
                 temp_value = average_data[value] # save in temp_value the value of the key in average data
                 if temp_value >= weights_below[value]: # if the value is >= of the value in the dict below
@@ -285,29 +286,31 @@ def test(average_data, data_test):
                 over_50k += 1
             elif value == '<=50K':
                 below_50k += 1
-        a = []
-        b = []
+        below = []
+        above = []
         # Count and compare to predict if the record is below or above 50K
         if temp_result_list.count('<=50K') >= temp_result_list.count('>50K'):
             temp_below += 1
-            a = '<=50K'
+            below = '<=50K'
             # When the value is below, if the last value in the line is <=50K
             # increment acc_below to check the accuracy
-            if line[-1] == a:
+            if line[-1] == below:
                 acc_below += 1
             # Can uncomment to print all the not correct lines
-            # else:
-            #     print(line, '--> NOT CORRECT','-','PREDICTION WAS:', a)
+            else:
+                wrong +=1
+            #     print(line, '--> NOT CORRECT','-','PREDICTION WAS:', below)
         else:
-            b = '>50K'
+            above = '>50K'
             temp_above += 1
             # When the value is above, if the last value in the line is >50K
             # increment acc_over to check the accuracy
-            if line[-1] == b:
+            if line[-1] == above:
                 acc_over += 1
             # Can uncomment to print all the not correct lines
-            # else:
-            #     print(line, '--> NOT CORRECT','-','PREDICTION WAS:', b)
+            else:
+                wrong +=1
+            #     print(line, '--> NOT CORRECT','-','PREDICTION WAS:', above)
 
     accuracy = round((acc_over * 100) / over_50k, 2)
     accuracy2 = round((acc_below * 100) / below_50k, 2)
@@ -319,6 +322,7 @@ def test(average_data, data_test):
     print('Prediction above 50k:', acc_over)
     print('Prediction below 50k:', acc_below, '\n')
 
+    # print('Not correct:', wrong)
     print('Accuracy >50K: ', accuracy,'%')
     print('Accuracy <=50K: ', accuracy2,'%', '\n')
     print('Total accuracy: ', (accuracy + accuracy2) / 2,'%')
