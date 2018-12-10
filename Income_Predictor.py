@@ -32,6 +32,7 @@ below50k = []
 
 final_data = []
 
+
 def get_data():
     '''
     Get the data form the HTTP link
