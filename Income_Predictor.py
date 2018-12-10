@@ -26,17 +26,12 @@ dict_below = {'AGE': [], 'WORKCLASS': [], 'EDUCATION_NUMBER': [], 'MARITAL_STATU
               'RELATIONSHIP': [], 'RACE': [], 'SEX': [], 'CAPITAL_GAIN': [], 'CAPITAL_LOSS': [], 'HOURS_PER_WEEK': [],
               'OUTCOME_FOR_THIS_RECORD': []}
 
-dict_total = {'AGE': [], 'WORKCLASS': [], 'EDUCATION_NUMBER': [], 'MARITAL_STATUS': [], 'OCCUPATION': [],
-              'RELATIONSHIP': [], 'RACE': [], 'SEX': [], 'CAPITAL_GAIN': [], 'CAPITAL_LOSS': [], 'HOURS_PER_WEEK': [],
-              'OUTCOME_FOR_THIS_RECORD': []}
-
 above50k = []
 
 below50k = []
 
 final_data = []
 
-na = []
 def get_data():
     '''
     Get the data form the HTTP link
@@ -333,6 +328,7 @@ def test(average_data, data_test):
     print('Accuracy <=50K: ', accuracy2, '%', '\n')
     print('Total accuracy: ', (accuracy + accuracy2) / 2, '%')
     print('----------------------------------', '\n')
+
 
 get_adultdata = get_data()
 training, data = process_data(get_adultdata)
